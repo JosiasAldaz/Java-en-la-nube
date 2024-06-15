@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmpeladosCreateDlg" widgetVar="EmpeladosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEmpeladosTitle}">
+            <h:form id="EmpeladosCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{empeladosController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateEmpeladosLabel_idEmpleados}" for="idEmpleados" />
+                        <p:inputText id="idEmpleados" value="#{empeladosController.selected.idEmpleados}" title="#{bundle.CreateEmpeladosTitle_idEmpleados}" required="true" requiredMessage="#{bundle.CreateEmpeladosRequiredMessage_idEmpleados}"/>
+                        <p:outputLabel value="#{bundle.CreateEmpeladosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{empeladosController.selected.nombre}" title="#{bundle.CreateEmpeladosTitle_nombre}" required="true" requiredMessage="#{bundle.CreateEmpeladosRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundle.CreateEmpeladosLabel_frkDepartamentos}" for="frkDepartamentos" />
+                        <p:selectOneMenu id="frkDepartamentos" value="#{empeladosController.selected.frkDepartamentos}" required="true" requiredMessage="#{bundle.EditEmpeladosRequiredMessage_frkDepartamentos}">
+                            <f:selectItems value="#{departamentosController.itemsAvailableSelectOne}"
+                                           var="frkDepartamentosItem"
+                                           itemValue="#{frkDepartamentosItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{empeladosController.create}" value="#{bundle.Save}" update="display,:EmpeladosListForm:datalist,:growl" oncomplete="handleSubmit(args,'EmpeladosCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="EmpeladosCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

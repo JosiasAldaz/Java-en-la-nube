@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmpeladosViewDlg" widgetVar="EmpeladosViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewEmpeladosTitle}">
+            <h:form id="EmpeladosViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{empeladosController.selected != null}">
+                        <h:outputText value="#{bundle.ViewEmpeladosLabel_idEmpleados}"/>
+                        <h:outputText value="#{empeladosController.selected.idEmpleados}" title="#{bundle.ViewEmpeladosTitle_idEmpleados}"/>
+                        <h:outputText value="#{bundle.ViewEmpeladosLabel_nombre}"/>
+                        <h:outputText value="#{empeladosController.selected.nombre}" title="#{bundle.ViewEmpeladosTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewEmpeladosLabel_frkDepartamentos}"/>
+                        <h:outputText value="#{empeladosController.selected.frkDepartamentos}" title="#{bundle.ViewEmpeladosTitle_frkDepartamentos}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="EmpeladosViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

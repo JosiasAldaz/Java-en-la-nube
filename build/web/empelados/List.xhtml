@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListEmpeladosTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="EmpeladosListForm">
+                <p:panel header="#{bundle.ListEmpeladosTitle}">
+                    <p:dataTable id="datalist" value="#{empeladosController.items}" var="item"
+                                 selectionMode="single" selection="#{empeladosController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idEmpleados}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEmpeladosTitle_idEmpleados}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idEmpleados}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEmpeladosTitle_nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEmpeladosTitle_frkDepartamentos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.frkDepartamentos}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus" value="#{bundle.Create}" actionListener="#{empeladosController.prepareCreate}" update=":EmpeladosCreateForm" oncomplete="PF('EmpeladosCreateDialog').show()"/>
+                            <p:commandButton id="viewButton" icon="ui-icon-search" value="#{bundle.View}" update=":EmpeladosViewForm" oncomplete="PF('EmpeladosViewDialog').show()" disabled="#{empty empeladosController.selected}"/>
+                            <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EmpeladosEditForm" oncomplete="PF('EmpeladosEditDialog').show()" disabled="#{empty empeladosController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash" value="#{bundle.Delete}" actionListener="#{empeladosController.destroy}" update=":growl,datalist" disabled="#{empty empeladosController.selected}">
+                            <p:confirm header="Confirmación" message="¿Está seguro de que desea eliminarlo?" icon="pi pi-exclamation-triangle" />
+                            </p:commandButton>
+    <!-- ConfirmDialog global -->
+                            <p:commandButton id="confirmButton" onclick="PF('confirmation').show()" value="Confirm" />
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="confirmation">
+                                <p:commandButton value="Sí, eliminar" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" onclick="PF('confirmation').hide()" />
+                            </p:confirmDialog>
+                        </f:facet>
+
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>
